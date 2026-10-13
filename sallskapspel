@@ -1,0 +1,32 @@
+// Sällskapsspel ärver INTE från Biblioteksmedia, men implementerar IUtlaningsbar.
+// Det visar poängen med interface: olika klasser kan dela samma förmåga.
+public class Sallskapsspel : IUtlaningsbar
+{
+    public string Namn { get; set; }
+    public int MaxAntalSpelare { get; set; }
+    public bool ArUtlanad { get; private set; }
+
+    public Sallskapsspel(string namn, int maxAntalSpelare)
+    {
+        Namn = namn;
+        MaxAntalSpelare = maxAntalSpelare;
+    }
+
+    public void LanaUt()
+    {
+        if (ArUtlanad)
+        {
+            Console.WriteLine($"\"{Namn}\" är redan utlånat.");
+        }
+        else
+        {
+            ArUtlanad = true;
+            Console.WriteLine($"\"{Namn}\" är nu utlånat.");
+        }
+    }
+
+    public void LamnaTillbaka()
+    {
+        ArUtlanad = false;
+        Console.WriteLine($"\"{Namn}\" är tillbakalämnat.");
+    }
