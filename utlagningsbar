@@ -1,0 +1,8 @@
+// Steg 3: Interfacet beskriver VAD en utlåningsbar klass måste ha,
+// men inte HUR det fungerar. Det skriver varje klass själv.
+public interface IUtlaningsbar
+{
+    bool ArUtlanad { get; }
+    void LanaUt();
+    void LamnaTillbaka();
+}
