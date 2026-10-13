@@ -1,0 +1,20 @@
+// Steg 1: Basklassen. Allt som böcker och filmer har gemensamt samlas här.
+public class Biblioteksmedia
+{
+    public string Titel { get; set; }
+    public int Utgivningsar { get; set; }
+
+    // Konstruktor: körs när ett nytt objekt skapas och ger det startvärden.
+    public Biblioteksmedia(string titel, int utgivningsar)
+    {
+        Titel = titel;
+        Utgivningsar = utgivningsar;
+    }
+
+    // Steg 2: "virtual" betyder att metoden har en grundversion,
+    // men att en underklass får göra en egen version med "override".
+    public virtual string Beskrivning()
+    {
+        return $"{Titel} ({Utgivningsar})";
+    }
+}
