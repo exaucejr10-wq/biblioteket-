@@ -1,0 +1,81 @@
+// ===== Steg 1: Skapa en bok och en film =====
+Bok bok = new Bok("Röda rummet", 1879, "August Strindberg");
+Bok bok2 = new Bok("Pippi Långstrump", 1945, "Astrid Lindgren");
+Film film = new Film("Sällskapsresan", 1980, 107);
+Sallskapsspel spel = new Sallskapsspel("Monopol", 6);
+Tidskrift tidskrift = new Tidskrift("Allt om Vetenskap", 2026, 10);
+
+Console.WriteLine("=== Steg 1: Kontrollera värdena ===");
+Console.WriteLine($"Bok: {bok.Titel}, {bok.Utgivningsar}, {bok.Forfattare}");
+Console.WriteLine($"Film: {film.Titel}, {film.Utgivningsar}, {film.SpeltidMinuter} min");
+
+// ===== Steg 2: Samma metod ger olika resultat (polymorfism) =====
+Console.WriteLine();
+Console.WriteLine("=== Steg 2: Alla biblioteksmedier ===");
+
+List<Biblioteksmedia> medier = new();
+medier.Add(bok);
+medier.Add(bok2);
+medier.Add(film);
+medier.Add(tidskrift);   // extra: tidskriften passar här eftersom den ärver från Biblioteksmedia
+
+foreach (Biblioteksmedia media in medier)
+{
+    Console.WriteLine(media.Beskrivning());   // rätt version körs automatiskt
+}
+
+// ===== Steg 3: Låna ut samma objekt två gånger och lämna tillbaka =====
+Console.WriteLine();
+Console.WriteLine("=== Steg 3: Testa utlåning ===");
+
+bok.LanaUt();
+Console.WriteLine($"Status: {bok.ArUtlanad}");
+bok.LanaUt();                                 // ska ge meddelande, status fortfarande true
+Console.WriteLine($"Status: {bok.ArUtlanad}");
+bok.LamnaTillbaka();
+Console.WriteLine($"Status: {bok.ArUtlanad}");
+
+spel.LanaUt();
+Console.WriteLine($"Status: {spel.ArUtlanad}");
+spel.LanaUt();
+Console.WriteLine($"Status: {spel.ArUtlanad}");
+spel.LamnaTillbaka();
+Console.WriteLine($"Status: {spel.ArUtlanad}");
+
+// ===== Steg 4: Använd interfacet som typ =====
+Console.WriteLine();
+Console.WriteLine("=== Steg 4: Låna ut allt i listan ===");
+
+List<IUtlaningsbar> utlaningsbara = new();
+utlaningsbara.Add(bok);
+utlaningsbara.Add(spel);
+utlaningsbara.Add(tidskrift);   // extra: tidskriften passar här eftersom den implementerar IUtlaningsbar
+
+foreach (IUtlaningsbar objekt in utlaningsbara)
+{
+    objekt.LanaUt();
+    Console.WriteLine(objekt.ArUtlanad);   // ska bli true
+}
+
+// Prova själva: andra loopen som lämnar tillbaka
+Console.WriteLine();
+Console.WriteLine("=== Steg 4: Lämna tillbaka allt ===");
+
+foreach (IUtlaningsbar objekt in utlaningsbara)
+{
+    objekt.LamnaTillbaka();
+    Console.WriteLine(objekt.ArUtlanad);   // ska bli false
+}
+
+// Ta emot interfacet i en metod
+Console.WriteLine();
+Console.WriteLine("=== Steg 4: LanaUtObjekt ===");
+LanaUtObjekt(bok);
+LanaUtObjekt(spel);
+// LanaUtObjekt(film);   // fungerar INTE: Film implementerar inte IUtlaningsbar
+
+// Funktionen läggs efter de vanliga programraderna (top-level statements)
+void LanaUtObjekt(IUtlaningsbar objekt)
+{
+    objekt.LanaUt();
+}
