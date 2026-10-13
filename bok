@@ -1,0 +1,42 @@
+// Bok ärver från Biblioteksmedia (får Titel och Utgivningsar)
+// och implementerar IUtlaningsbar (kan lånas ut). Basklassen skrivs först.
+public class Bok : Biblioteksmedia, IUtlaningsbar
+{
+    public string Forfattare { get; set; }
+
+    // get = andra kan läsa status. private set = bara Bok själv kan ändra den.
+    // Ett bool-värde börjar som false, alltså inte utlånad.
+    public bool ArUtlanad { get; private set; }
+
+    // base(titel, utgivningsar) skickar de två värdena vidare till basklassens konstruktor.
+    public Bok(string titel, int utgivningsar, string forfattare)
+        : base(titel, utgivningsar)
+    {
+        Forfattare = forfattare;
+    }
+
+    // override = bokens egen version av Beskrivning, med författaren.
+    public override string Beskrivning()
+    {
+        return $"{Titel} ({Utgivningsar}), {Forfattare}";
+    }
+
+    public void LanaUt()
+    {
+        if (ArUtlanad)
+        {
+            Console.WriteLine($"\"{Titel}\" är redan utlånad.");
+        }
+        else
+        {
+            ArUtlanad = true;
+            Console.WriteLine($"\"{Titel}\" är nu utlånad.");
+        }
+    }
+
+    public void LamnaTillbaka()
+    {
+        ArUtlanad = false;
+        Console.WriteLine($"\"{Titel}\" är tillbakalämnad.");
+    }
+}
